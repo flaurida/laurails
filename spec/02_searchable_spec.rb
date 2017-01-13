@@ -1,4 +1,5 @@
 require '02_searchable'
+require 'bonus_relation'
 
 describe 'Searchable' do
   before(:each) { DBConnection.reset }
