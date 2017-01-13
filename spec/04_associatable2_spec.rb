@@ -48,6 +48,7 @@ describe 'Associatable' do
     it 'stores options separately for each class' do
       expect(Cat.assoc_options).to have_key(:human)
       expect(Human.assoc_options).to_not have_key(:human)
+      expect(Human.assoc_options).to have_key(:cats)
 
       expect(Human.assoc_options).to have_key(:house)
       expect(Cat.assoc_options).to_not have_key(:house)
@@ -74,6 +75,56 @@ describe 'Associatable' do
 
       expect(house).to be_instance_of(House)
       expect(house.address).to eq('26th and Guerrero')
+    end
+  end
+
+  describe "#has_many_through" do
+    before(:all) do
+      class House
+        has_many_through :cats, :humans, :cats
+
+        self.finalize!
+      end
+
+      class Human
+        self.table_name = 'humans'
+
+        has_many :cats, foreign_key: :owner_id
+        has_many :houses
+
+        finalize!
+      end
+
+      class Cat
+        has_many_through :houses, :human, :houses
+      end
+    end
+
+    let(:cat) { Cat.find(1) }
+    let(:cats) { [Cat.find(3), Cat.find(4)] }
+    let(:house) { House.find(2) }
+    let(:human) { Human.find(1) }
+
+    it 'adds getter method' do
+      expect(house).to respond_to(:cats)
+      expect(cat).to respond_to(:houses)
+      expect(human).to respond_to(:houses)
+    end
+
+    it 'fetches associated `cats` for a `House`' do
+      result = house.cats
+
+      expect(result).to be_instance_of(Array)
+      expect(result.first).to be_instance_of(Cat)
+      expect(result.first.name).to eq(cats.first.name)
+    end
+
+    it 'fetches associated `houses ` for a `Cat`' do
+      result = cat.houses
+
+      expect(result).to be_instance_of(Array)
+      expect(result.first).to be_instance_of(House)
+      expect(result.first.address).to eq('26th and Guerrero')
     end
   end
 end
