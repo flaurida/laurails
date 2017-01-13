@@ -44,7 +44,7 @@ class Relation
     SQL
   end
 
-  def method_missing(method_name, *args)
-    execute.send(method_name, *args)
+  def method_missing(method_name, *args, &blk)
+    execute.send(method_name, *args, &blk)
   end
 end
