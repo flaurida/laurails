@@ -1,4 +1,4 @@
-class AttrAccessorObject
+module AttrAccessorObject
   def self.attr_accessor(*names)
     names.each do |name|
       ivar_sym = "@#{name}".to_sym

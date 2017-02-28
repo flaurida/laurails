@@ -105,6 +105,15 @@ class LaurailsrecordBase
     SQL
   end
 
+  def destroy
+    DBConnection.execute(<<-SQL, self.id)
+      DELETE FROM
+        #{self.class.table_name}
+      WHERE
+        id = ?
+    SQL
+  end
+
   def save
     self.id ? update : insert
   end

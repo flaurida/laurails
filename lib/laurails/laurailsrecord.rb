@@ -7,6 +7,6 @@ require_relative 'laurailsrecord/searchable'
 
 class LaurailsrecordBase
   extend Associatable
-  # extend AttrAccessorObject
+  extend AttrAccessorObject
   extend Searchable
 end
