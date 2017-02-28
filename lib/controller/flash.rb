@@ -3,7 +3,7 @@ require 'json'
 class Flash
   def initialize(req, live_cookies = {}, now_cookies = {})
     @req = req
-    dead_cookies = @req.cookies["_rails_lite_app_flash"]
+    dead_cookies = @req.cookies["_laurails_flash"]
     @dead_cookies = dead_cookies ? JSON.parse(dead_cookies) : {}
     @live_cookies = live_cookies
     @now_cookies = now_cookies
@@ -22,7 +22,7 @@ class Flash
   end
 
   def store_flash(res)
-    res.set_cookie("_rails_lite_app_flash", @live_cookies.to_json)
+    res.set_cookie("_laurails_flash", @live_cookies.to_json)
   end
 
   def []=(key, value)

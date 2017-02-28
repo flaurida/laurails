@@ -49,7 +49,7 @@ class ControllerBase
   # use ERB and binding to evaluate templates
   # pass the rendered html to render_content
   def render(template_name)
-    template_path = "./views/#{self.class.to_s.underscore}/#{template_name}.html.erb"
+    template_path = "app/views/#{self.class.to_s.underscore}/#{template_name}.html.erb"
     contents = File.read(template_path)
     template = ERB.new(contents)
     result = template.result(binding)
@@ -76,13 +76,14 @@ class ControllerBase
 
   def form_authenticity_token
     @token ||= SecureRandom::urlsafe_base64(16)
-    res.set_cookie('authenticity_token', @token)
+    session['authenticity_token'] = @token
+    session.store_session(res)
     @token
   end
 
   def check_authenticity_token
-    unless req.cookies['authenticity_token'] &&
-      req.cookies['authenticity_token'] == params['authenticity_token']
+    unless session['authenticity_token'] &&
+      session['authenticity_token'] == params['authenticity_token']
       raise "Invalid authenticity token"
     end
   end

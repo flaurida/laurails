@@ -10,7 +10,8 @@ class Route
 
   # checks if pattern matches path and method matches request method
   def matches?(req)
-    @http_method == req.request_method.downcase.to_sym && @pattern.match(req.path)
+    req_method = req.params['_method'] || req.request_method
+    @http_method == req_method.downcase.to_sym && @pattern.match(req.path)
   end
 
   # use pattern to pull out route params (save for later?)
@@ -39,7 +40,7 @@ class Router
   # evaluate the proc in the context of the instance
   # for syntactic sugar :)
   def draw(&proc)
-    self.instance_eval(&proc)
+    instance_eval(&proc)
   end
 
   # make each of these methods that

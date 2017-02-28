@@ -12,6 +12,7 @@ class ExceptionViewer
       app.call(env)
     rescue Exception => e
       render_exception(e)
+      puts e
     end
   end
 

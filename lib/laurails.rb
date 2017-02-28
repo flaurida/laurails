@@ -4,8 +4,11 @@ require_relative 'exception_viewer'
 require_relative 'laurails/laurailsrecord'
 require_relative 'router'
 require 'rack'
+require 'byebug'
 
 module Laurails
+  Laurails::Router = Router.new
+
   def self.app
     DBConnection.instance
 
@@ -17,10 +20,17 @@ module Laurails
     end
 
     Rack::Builder.new do
-      use ExceptionViewer
+      # use ExceptionViewer
       use AssetServer
       run app
     end
+  end
+
+  def self.run
+    Rack::Server.start(
+      app: self.app,
+      Port: 3000
+    )
   end
 
   def self.root=(root)
