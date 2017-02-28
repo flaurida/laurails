@@ -1,12 +1,13 @@
-require 'laurails/asset_server'
-require 'laris/controller'
-require 'laris/exception_viewer'
-require 'laurails/laurailsrecord'
-require 'laurails/router'
+require_relative 'asset_server'
+require_relative 'controller'
+require_relative 'exception_viewer'
+require_relative 'laurails/laurailsrecord'
+require_relative 'router'
+require 'rack'
 
 module Laurails
   def self.app
-    DBConnection.reset
+    DBConnection.instance
 
     app = Proc.new do |env|
       req = Rack::Request.new(env)

@@ -71,5 +71,3 @@ class Router
     end
   end
 end
-
-Laurails::Router = Router.new

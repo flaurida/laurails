@@ -1,7 +1,7 @@
 require 'active_support'
 require 'active_support/core_ext'
 require 'erb'
-require_relative './session'
+require_relative 'session'
 require 'active_support/inflector'
 
 class ControllerBase
