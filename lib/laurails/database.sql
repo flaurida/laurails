@@ -1,6 +1,7 @@
 CREATE TABLE hedgehogs (
   id INTEGER PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
+  color VARCHAR(255) NOT NULL,
   owner_id INTEGER,
 
   FOREIGN KEY(owner_id) REFERENCES person(id)
@@ -34,10 +35,10 @@ VALUES
   (4, "Hedgehogless", "Person", NULL);
 
 INSERT INTO
-  hedgehogs (id, name, owner_id)
+  hedgehogs (id, name, color, owner_id)
 VALUES
-  (1, "Quilvia Plath", 1),
-  (2, "Clementine", 1),
-  (3, "Charizard", 2),
-  (4, "Spike", 3),
-  (5, "Stray Hedgehog", NULL);
+  (1, "Quilvia Plath", "dark grey", 1),
+  (2, "Clementine", "dark grey", 1),
+  (3, "Charizard", "cinnamon", 2),
+  (4, "Spike", "pinto", 3),
+  (5, "Stray Hedgehog", "albino", NULL);
