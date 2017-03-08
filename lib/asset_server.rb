@@ -4,7 +4,7 @@ class AssetServer
   end
 
   def call(env)
-    file_path = Regexp.new("(\/public\/.*)")
+    file_path = Regexp.new("(\/app/assets/images\/.*)")
     req = Rack::Request.new(env)
 
     if file_path.match(req.path)
@@ -12,7 +12,7 @@ class AssetServer
       static_file_path = File.join("./", req.path)
 
       if File.exist?(static_file_path)
-        res.status = 400
+        res.status = 200
         content_type = "." + req.path.split(".").last
         res['Content-type'] = Rack::Mime::MIME_TYPES[content_type]
         res.write(File.read(static_file_path))

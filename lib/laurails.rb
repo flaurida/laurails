@@ -20,7 +20,7 @@ module Laurails
     end
 
     Rack::Builder.new do
-      # use ExceptionViewer
+      use ExceptionViewer
       use AssetServer
       run app
     end

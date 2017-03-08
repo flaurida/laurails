@@ -19,7 +19,7 @@ class ExceptionViewer
   private
 
   def render_exception(e)
-    # ['500', {'Content-type' => 'text/html'}, [e.message]]
+    ['500', {'Content-type' => 'text/html'}, [e.message]]
     res = Rack::Response.new
     res.status = 500
     res['Content_Type'] = 'text/html'

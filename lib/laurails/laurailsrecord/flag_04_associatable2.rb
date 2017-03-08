@@ -4,7 +4,7 @@ require_relative '03_associatable'
 module Associatable
 
 
-
+# debugger
 
   # def has_many_through(name, through_name, source_name)
   #   through_options = self.assoc_options[through_name]
