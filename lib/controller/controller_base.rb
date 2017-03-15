@@ -2,6 +2,7 @@ require 'active_support'
 require 'active_support/core_ext'
 require 'erb'
 require_relative 'session'
+require_relative 'flash'
 require 'active_support/inflector'
 
 class ControllerBase
@@ -25,19 +26,21 @@ class ControllerBase
   def redirect_to(url)
     raise "Cannot double render!" if already_built_response?
 
-    @res.header['location'] = url
-    @res.status = 302
-    @already_built_response ||= @res
-    session.store_session(@res)
+    res.header['location'] = url
+    res.status = 302
+    @already_built_response ||= res
+    session.store_session(res)
+    flash.store_flash(res)
   end
 
   def render_content(content, content_type)
     raise "Cannot double render!" if already_built_response?
 
-    @res['Content-Type'] = content_type
-    @res.write(content)
-    @already_built_response ||= @res
-    session.store_session(@res)
+    res['Content-Type'] = content_type
+    res.write(content)
+    @already_built_response ||= res
+    session.store_session(res)
+    flash.store_flash(res)
   end
 
   def render(template_name)
@@ -52,7 +55,11 @@ class ControllerBase
   end
 
   def session
-    @session ||= Session.new(@req)
+    @session ||= Session.new(req)
+  end
+
+  def flash
+    @flash ||= Flash.new(req)
   end
 
   def invoke_action(name)

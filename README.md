@@ -9,7 +9,7 @@ Laurails is a basic Model View Controller / Object Relational Management framewo
 Classes that extend Laurails inherit a variety of ORM features:
 
 * The ability to define getter and setter methods for instance variables by calling finalize!
-* The ability to define relationships (belongs_to, has_many) between other model classes
+* The ability to define relationships (belongs_to, has_many, has_one_through, has_many_through) between other model classes
 * The ability to do basic CRUD operations on instances of the model class and have these operations persist to the database
 * Basic search operations that connect the database entries with matching instances of the model class
 
@@ -67,9 +67,6 @@ class HedgehogsController < ControllerBase
     @hedgehog.save
     redirect_to "/"
   end
-
-  ...
-
 end
 ```
 
@@ -120,7 +117,7 @@ The entry file is laurails.rb. In addition, the file lib/laurails.rb provides mo
 
 ## Future Improvements (Coming Soon)
 
-* Define has_many_through relationships (currently only has_one_through is supported)
+* Add other options for `validates` like uniqueness
 * Add template HTML files to the application so layouts can be reused across pages
 * Integrate PostgreSQL database functionality
 * Allow for running `laurails new` as a command to set up a default application

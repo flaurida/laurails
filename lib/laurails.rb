@@ -4,7 +4,6 @@ require_relative 'exception_viewer'
 require_relative 'laurails/laurailsrecord'
 require_relative 'router'
 require 'rack'
-require 'byebug'
 
 module Laurails
   Laurails::Router = Router.new

@@ -1,4 +1,5 @@
 require_relative '../models/hedgehog'
+require_relative '../models/person'
 
 class HedgehogsController < ControllerBase
   def index
@@ -7,6 +8,7 @@ class HedgehogsController < ControllerBase
   end
 
   def new
+    @hedgehog = Hedgehog.new
     render :new
   end
 
@@ -17,8 +19,12 @@ class HedgehogsController < ControllerBase
       owner_id: params['hedgehog']['owner_id']
     )
 
-    @hedgehog.save
-    redirect_to "/"
+    if @hedgehog.save
+      redirect_to "/"
+    else
+      flash.now[:errors] = @hedgehog.errors
+      render :new
+    end
   end
 
   def destroy

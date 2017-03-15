@@ -1,18 +1,22 @@
 <h1>All the Hedgehogs!</h1>
 
 <a href="hedgehogs/new">Create New Hedgehog</a>
+<a href="houses">See Houses</a>
 
 <ul>
-<% @hedgehogs.each do |hedgehog| %>
-  <li><a href="hedgehogs/<%= hedgehog.id %>"><%= hedgehog.name %> (<%= hedgehog.color %>)</a></li>
-  <form action="hedgehogs/<%= hedgehog.id %>" method="post">
-    <input  type="hidden"
-            name="authenticity_token"
-            value="<%= form_authenticity_token %>" />
-    <input type="hidden" name="_method" value="delete" />
-    <input type="submit" value="Delete" />
-  </form>
-<% end %>
+  <% @hedgehogs.each do |hedgehog| %>
+    <% owner_name = hedgehog.owner ? "#{hedgehog.owner.fname} #{hedgehog.owner.lname}"
+      : "No owner" %>
+
+    <li><a href="hedgehogs/<%= hedgehog.id %>"><%= hedgehog.name %> (<%= hedgehog.color %>)</a> - <%= owner_name %></li>
+    <form action="hedgehogs/<%= hedgehog.id %>" method="post">
+      <input  type="hidden"
+              name="authenticity_token"
+              value="<%= form_authenticity_token %>" />
+      <input type="hidden" name="_method" value="delete" />
+      <input type="submit" value="Delete" />
+    </form>
+  <% end %>
 </ul>
 
 <img src="app/assets/images/hedgehog.png" />

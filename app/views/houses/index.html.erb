@@ -1,0 +1,18 @@
+<h1>All the Houses!</h1>
+
+<a href="/hedgehogs">Back to Hedgehogs</a>
+
+<ul>
+  <% @houses.each do |house| %>
+    <li>
+      <div>
+        <%= house.address %>
+        <ul>
+          <% house.hedgehogs.each do |hedgehog| %>
+            <li><a href="hedgehogs/<%= hedgehog.id %>"><%= hedgehog.name %> (<%= hedgehog.color %>)</a></li>
+          <% end %>
+        </ul>
+      </div>
+    </li>
+  <% end %>
+</ul>

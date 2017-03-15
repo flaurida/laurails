@@ -1,7 +1,14 @@
 require_relative 'db_connection'
 require 'active_support/inflector'
+require_relative 'validator'
 
 class LaurailsrecordBase
+  attr_reader :errors
+
+  def self.validates(attr, options = { presence: true })
+    @validators << Validator.new(attr, options)
+  end
+
   def self.columns
     @columns ||= DBConnection.execute2(<<-SQL).first.map(&:to_sym)
       SELECT
@@ -9,6 +16,10 @@ class LaurailsrecordBase
       FROM
         #{table_name}
     SQL
+  end
+
+  def self.validators
+    @validators
   end
 
   def self.finalize!
@@ -19,6 +30,8 @@ class LaurailsrecordBase
         attributes[name] = value
       end
     end
+
+    @validators = []
   end
 
   def self.table_name=(table_name)
@@ -114,7 +127,29 @@ class LaurailsrecordBase
     SQL
   end
 
+  def validate_all
+    params = attributes
+    valid = true
+    @errors = {}
+
+    self.class.validators.each do |validator|
+      validation = validator.validate(params)
+
+      if validation.is_a? String
+        errors[validator.attr] = validation
+        valid = false
+      end
+    end
+
+    valid
+  end
+
   def save
-    self.id ? update : insert
+    if validate_all
+      self.id ? update : insert
+      return true
+    end
+
+    false
   end
 end

@@ -1,18 +1,26 @@
+<% if flash.now[:errors] %>
+  <ul>
+    <% flash.now[:errors].each do |field, error| %>
+      <li><%= "#{field.capitalize} #{error}" %></li>
+    <% end %>
+  </ul>
+<% end %>
+
 <form action="/hedgehogs" method="post">
   <input  type="hidden"
           name="authenticity_token"
           value="<%= form_authenticity_token %>" />
 
   <label for="name">Name:</label>
-  <input id="name" type="text" name="hedgehog[name]" />
+  <input id="name" type="text" name="hedgehog[name]" value="<%= @hedgehog.name %>"/>
   <br />
 
   <label for="color">Color:</label>
-  <input id="color" type="text" name="hedgehog[color]" />
+  <input id="color" type="text" name="hedgehog[color]" value="<%= @hedgehog.color %>"/>
   <br />
 
   <label for="id">Owner ID:</label>
-  <input id="id" type="text" name="hedgehog[owner_id]" />
+  <input id="id" type="text" name="hedgehog[owner_id]" value="<%= @hedgehog.owner_id %>"/>
   <br />
 
   <input type="submit" value="Create Hedgehog!" />
