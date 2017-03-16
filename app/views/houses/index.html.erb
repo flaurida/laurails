@@ -1,18 +1,28 @@
-<h1>All the Houses!</h1>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Laurails Demo</title>
+    <link rel="stylesheet" href="http://localhost:3000/app/assets/stylesheets/application.css">
+  </head>
+  <body>
+    <h1>All the Houses!</h1>
 
-<a href="/hedgehogs">Back to Hedgehogs</a>
+    <a href="/hedgehogs">Back to Hedgehogs</a>
 
-<ul>
-  <% @houses.each do |house| %>
-    <li>
-      <div>
-        <%= house.address %>
-        <ul>
-          <% house.hedgehogs.each do |hedgehog| %>
-            <li><a href="hedgehogs/<%= hedgehog.id %>"><%= hedgehog.name %> (<%= hedgehog.color %>)</a></li>
-          <% end %>
-        </ul>
-      </div>
-    </li>
-  <% end %>
-</ul>
+    <ul>
+      <% @houses.each do |house| %>
+      <li>
+        <div>
+          <%= house.address %>
+          <ul>
+            <% house.hedgehogs.each do |hedgehog| %>
+            <li><a href="hedgehogs/<%= hedgehog.id %>"><%= hedgehog.name %> </a>(<%= hedgehog.color %>)</li>
+            <% end %>
+          </ul>
+        </div>
+      </li>
+      <% end %>
+    </ul>
+  </body>
+</html>

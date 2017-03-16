@@ -4,7 +4,7 @@ class AssetServer
   end
 
   def call(env)
-    file_path = Regexp.new("(\/app/assets/images\/.*)")
+    file_path = Regexp.new("(\/app/assets\/.*)")
     req = Rack::Request.new(env)
 
     if file_path.match(req.path)

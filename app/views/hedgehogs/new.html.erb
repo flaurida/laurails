@@ -1,27 +1,39 @@
-<% if flash.now[:errors] %>
-  <ul>
-    <% flash.now[:errors].each do |field, errors| %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Laurails Demo</title>
+    <link rel="stylesheet" href="http://localhost:3000/app/assets/stylesheets/application.css">
+  </head>
+  <body>
+    <% if flash.now[:errors] %>
+    <ul class="errors">
+      <% flash.now[:errors].each do |field, errors| %>
       <li><%= "#{field.capitalize} #{errors.join(", ")}" %></li>
+      <% end %>
+    </ul>
     <% end %>
-  </ul>
-<% end %>
 
-<form action="/hedgehogs" method="post">
-  <input  type="hidden"
-          name="authenticity_token"
-          value="<%= form_authenticity_token %>" />
+    <form action="/hedgehogs" method="post">
+      <input  type="hidden"
+      name="authenticity_token"
+      value="<%= form_authenticity_token %>" />
 
-  <label for="name">Name:</label>
-  <input id="name" type="text" name="hedgehog[name]" value="<%= @hedgehog.name %>"/>
-  <br />
+      <label for="name">Name:</label>
+      <input id="name" type="text" name="hedgehog[name]" value="<%= @hedgehog.name %>"/>
+      <br />
 
-  <label for="color">Color:</label>
-  <input id="color" type="text" name="hedgehog[color]" value="<%= @hedgehog.color %>"/>
-  <br />
+      <label for="color">Color:</label>
+      <input id="color" type="text" name="hedgehog[color]" value="<%= @hedgehog.color %>"/>
+      <br />
 
-  <label for="id">Owner ID:</label>
-  <input id="id" type="text" name="hedgehog[owner_id]" value="<%= @hedgehog.owner_id %>"/>
-  <br />
+      <label for="id">Owner ID:</label>
+      <input id="id" type="text" name="hedgehog[owner_id]" value="<%= @hedgehog.owner_id %>"/>
+      <br />
 
-  <input type="submit" value="Create Hedgehog!" />
-</form>
+      <input type="submit" value="Create Hedgehog!" />
+    </form>
+
+    <a href="/hedgehogs">Back to Hedgehogs</a>
+  </body>
+</html>

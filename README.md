@@ -114,7 +114,7 @@ Laurailsrecord uses a DBConnection class that works with SQLite. You may use the
 
 ## Additional Rack Middleware
 
-* AssetServer allows for static assets with .jpg, .png, .gif, and .html extensions located in the [images folder](./app/assets/images) to be served. To use this, simply include an image tag in an HTML view. Example: `<img src="app/assets/images/hedgehog.png" />`
+* AssetServer allows for static assets with .jpg, .png, .gif, .css, and .html extensions located in the [assets folder](./app/assets) to be served. To use this, simply include an image tag in an HTML view. Example: `<img src="app/assets/images/hedgehog.png" />`
 * Exceptions provides a detailed error message for Ruby errors.
 
 ## Getting Started
