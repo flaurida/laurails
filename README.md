@@ -9,13 +9,16 @@ Laurails is a basic Model View Controller / Object Relational Management framewo
 Classes that extend Laurails inherit a variety of ORM features:
 
 * The ability to define getter and setter methods for instance variables by calling finalize!
-* The ability to define relationships (belongs_to, has_many, has_one_through, has_many_through) between other model classes
+* The ability to define associations (belongs_to, has_many, has_one_through, has_many_through) between other model classes
+* The ability to validate the presence of desired attributes
 * The ability to do basic CRUD operations on instances of the model class and have these operations persist to the database
 * Basic search operations that connect the database entries with matching instances of the model class
 
 ### Example Usage
 
-To create your your own model, simply add the file to the app/models folder, inherit from LaurailsrecordBase, and call the finalize! method. An example is shown below ([see file](./app/models/hedgehog.rb)).
+To create your your own model, simply add the file to the app/models folder, inherit from LaurailsrecordBase, and call the finalize! method. You may then define associations with optional specifications for class name, foreign key, and primary key. You may also call the class method `validates` with a desired attribute to ensure that the attribute is present before saving.
+
+An example is shown below ([see file](./app/models/hedgehog.rb)).
 
 ```ruby
 class Hedgehog < LaurailsrecordBase
@@ -23,6 +26,9 @@ class Hedgehog < LaurailsrecordBase
 
   belongs_to :owner, class_name: "Person", foreign_key: :owner_id
   has_one_through :house, :house, :owner
+
+  validates :name
+  validates :color
 end
 ```
 
@@ -40,7 +46,7 @@ Classes that extend ControllerBase can do the following:
 
 ### Example Usage
 
-To create a controller for a corresponding model, add the file name to the [controllers folder](./app/controllers). Be sure to require the model file at the top of your controller file (improvement on this coming soon).
+To create a controller for a corresponding model, add the file name to the [controllers folder](./app/controllers). Be sure to require the model file at the top of your controller file (improvement on this coming soon). As in Rails, you will be able to render and redirect within controller actions. You can also set flash errors that will be accessible within your views.
 
 You may also create a folder with the Rails convention naming in the [views folder](./app/views/). For example, if your controller is named HedgehogsController, add a folder called "hedgehogs" to the views folder.
 
@@ -64,8 +70,12 @@ class HedgehogsController < ControllerBase
       owner_id: params['hedgehog']['owner_id']
     )
 
-    @hedgehog.save
-    redirect_to "/"
+    if @hedgehog.save
+      redirect_to "/"
+    else
+      flash.now[:errors] = @hedgehog.errors
+      render :new
+    end
   end
 end
 ```
@@ -102,7 +112,7 @@ Laurailsrecord uses a DBConnection class that works with SQLite. You may use the
 
 ## Additional Rack Middleware
 
-* AssetServer allows for static assets with .jpg, .png, .gif, and .html extensions located in the [images folder](./app/assets/images) to be served. To use this, simply include an image tag in an HTML view, and make sure that the path is something like "app/assets/images/your_image.jpg".
+* AssetServer allows for static assets with .jpg, .png, .gif, and .html extensions located in the [images folder](./app/assets/images) to be served. To use this, simply include an image tag in an HTML view. Example: `<img src="app/assets/images/hedgehog.png" />`
 * Exceptions provides a detailed error message for Ruby errors.
 
 ## Getting Started
@@ -119,5 +129,6 @@ The entry file is laurails.rb. In addition, the file lib/laurails.rb provides mo
 
 * Add other options for `validates` like uniqueness
 * Add template HTML files to the application so layouts can be reused across pages
+* Automatically require relevant model and controller files in app
 * Integrate PostgreSQL database functionality
 * Allow for running `laurails new` as a command to set up a default application
