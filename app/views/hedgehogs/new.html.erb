@@ -1,7 +1,7 @@
 <% if flash.now[:errors] %>
   <ul>
-    <% flash.now[:errors].each do |field, error| %>
-      <li><%= "#{field.capitalize} #{error}" %></li>
+    <% flash.now[:errors].each do |field, errors| %>
+      <li><%= "#{field.capitalize} #{errors.join(", ")}" %></li>
     <% end %>
   </ul>
 <% end %>

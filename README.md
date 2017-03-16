@@ -16,7 +16,7 @@ Classes that extend Laurails inherit a variety of ORM features:
 
 ### Example Usage
 
-To create your your own model, simply add the file to the app/models folder, inherit from LaurailsrecordBase, and call the finalize! method. You may then define associations with optional specifications for class name, foreign key, and primary key. You may also call the class method `validates` with a desired attribute to ensure that the attribute is present before saving.
+To create your your own model, simply add the file to the app/models folder, inherit from LaurailsrecordBase, and call the finalize! method. You may then define associations with optional specifications for class name, foreign key, and primary key. You may also call the class method `validates` to perform model-level validations. Currently, the options that are supported are: `presence`, `uniqueness`, and `length`. If no option is given, the default validation is `presence: true`.
 
 An example is shown below ([see file](./app/models/hedgehog.rb)).
 
@@ -27,7 +27,9 @@ class Hedgehog < LaurailsrecordBase
   belongs_to :owner, class_name: "Person", foreign_key: :owner_id
   has_one_through :house, :house, :owner
 
-  validates :name
+  validates :name, presence: true,
+    uniqueness: true,
+    length: { minimum: 3, maximum: 20 }
   validates :color
 end
 ```
@@ -127,7 +129,6 @@ The entry file is laurails.rb. In addition, the file lib/laurails.rb provides mo
 
 ## Future Improvements (Coming Soon)
 
-* Add other options for `validates` like uniqueness
 * Add template HTML files to the application so layouts can be reused across pages
 * Automatically require relevant model and controller files in app
 * Integrate PostgreSQL database functionality

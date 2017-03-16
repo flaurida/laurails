@@ -133,9 +133,16 @@ class LaurailsrecordBase
     @errors = {}
 
     self.class.validators.each do |validator|
-      validation = validator.validate(params)
+      if validator.options[:uniqueness]
+        relation = self.class.where(
+          { validator.attr => params[validator.attr] }
+        )
+        validation = validator.validate(params, relation)
+      else
+        validation = validator.validate(params)
+      end
 
-      if validation.is_a? String
+      unless validation.empty?
         errors[validator.attr] = validation
         valid = false
       end
