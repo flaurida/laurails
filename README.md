@@ -1,6 +1,6 @@
 # Laurails
 
-Laurails is a basic Model View Controller / Object Relational Management framework inspired by Ruby on Rails and written in Ruby. LaurailsrecordBase provides the ORM functionality, ControllerBase allows for basic controller capabilities, and Router allows for creation of various routes.
+Laurails is a basic Model View Controller / Object Relational Management framework inspired by Ruby on Rails and written in Ruby. LaurailsrecordBase provides the ORM functionality, ControllerBase allows for basic controller capabilities, and Router allows for the creation of various routes.
 
 ## LaurailsrecordBase
 
